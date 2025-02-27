@@ -1,0 +1,113 @@
+
+.navbar{
+    height: 150px;
+    background-color: rgb(4, 180, 180);
+    display: flex;
+    justify-content: center;
+
+    border: 2px solid black;
+}
+
+.navContainer{
+    width: 100%;
+    max-width: 1024px;
+    color: rgb(237, 232, 232);
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.hamburger{
+    position: static; /* Position the hamburger icon */
+    
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.logo{
+    font-weight: bolder;
+    font-size: 2.5rem;
+    color: rgb(247, 238, 238);
+    margin-right: auto;
+
+}
+
+.navbarRegisterItems {
+    display: flex;
+    align-items: center;  
+    gap: 10px;
+
+
+}
+
+.navButton{
+    margin-left: 10px;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: rgb(5, 94, 94);
+    font-weight: bolder;
+    border: solid 1px black;
+    background-color: white;   
+    border-radius: 5px;
+}
+
+.navbarList{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.navbarListItem{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 40px;
+    
+}
+
+.navbarList{
+    display: flex;
+    gap: 1px;
+    margin-bottom: 10px;
+}
+
+
+.navbarListItem.active{
+    border: 1px solid white;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        height: auto; /* Allow navbar height to adjust dynamically */
+        padding: 10px; /* Add padding for small screens */
+    }
+
+    .navContainer {
+        flex-direction: column; /* Stack items vertically */
+        align-items: center; /* Center-align for smaller screens */
+    }
+
+    .navbarList {
+        justify-content: center; /* Center-align navbar items */
+        margin-top: 10px;
+        gap: 10px; /* Adjust gaps for smaller screens */
+    }
+
+    .navbarRegisterItems {
+        margin-left: 0; /* Remove the fixed margin */
+        margin-top: 10px; /* Add spacing between rows */
+    }
+
+    .logo {
+        font-size: 2rem; /* Adjust logo size */
+        margin-bottom: 10px; /* Add spacing */
+    }
+}
