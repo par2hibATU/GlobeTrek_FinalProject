@@ -1,6 +1,6 @@
 import React from "react";
 import "./featured.css";
-import useFetch from "../../hooks/useFetch";
+import useFetch from "../../hooks/useFetch.js";
 
 export const Featured = () => {
   //used the proxy from the package
