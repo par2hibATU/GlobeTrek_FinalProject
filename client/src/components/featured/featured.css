@@ -26,3 +26,10 @@
     bottom: 140px;
     left: 20px;
 }
+
+.featuredTitles>h1{
+    font-size: 30px;
+    font-weight: bold;
+    color: #f5f3f3;
+
+}

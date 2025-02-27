@@ -4,7 +4,7 @@ import useFetch from "../../hooks/useFetch.js";
 
 export const Featured = () => {
   //used the proxy from the package
-  const {data, loading, error } = useFetch("/hotels/countByCity?cities=Galway,Dublin,Limerick,Letterkenny")
+  const {data, loading, error } = useFetch("/hotels/countByCity?cities=Galway,Dublin,Limerick,Letterkenny");
 
   return (
     <div className="featured">
