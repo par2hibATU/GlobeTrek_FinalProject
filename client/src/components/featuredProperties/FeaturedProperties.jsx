@@ -4,65 +4,30 @@ import useFetch from "../../hooks/useFetch";
 
 export const FeaturedProperties = () => {
 
-  const { data, loading, error } = useFetch("/hotels/countByType");
+  const { data, loading, error } = useFetch("/hotels?featured=true&limit=4");
   return (
     <div className="fp">
-      <div className="fpItem">
+      { loading ? "Loading" : <> 
+      {data.map((item) => (
+        <div className="fpItem" key={item._id}>
+        
         <img
-          src="https://th.bing.com/th/id/OIP.QycJU32I48eI_esWhJ2CXAAAAA?rs=1&pid=ImgDetMain"
+          src={item.photos[0]}
           alt=""
           className="fpImg"
         />
-        <span className="fpName">12 Hotel </span>
-        <span className="fpCity">Galway </span>
-        <span className="fpPrice">Starting from £150</span>
-        <div className="fpRating">
-          <button>4.5</button>
+        <span className="fpName">{item.name} </span>
+        <span className="fpCity">{item.city} </span>
+        <span className="fpPrice">Starting from £{item.cheapestPrice}</span>
+        {item.rating && <div className="fpRating">
+          <button>{item.rating}</button>
           <span> Excellent</span>
-        </div>
+        </div>}
       </div>
-      <div className="fpItem">
-        <img
-          src="https://th.bing.com/th/id/OIP.QycJU32I48eI_esWhJ2CXAAAAA?rs=1&pid=ImgDetMain"
-          alt=""
-          className="fpImg"
-        />
-        <span className="fpName">12 Hotel </span>
-        <span className="fpCity">Galway </span>
-        <span className="fpPrice">Starting from £150</span>
-        <div className="fpRating">
-          <button>4.5</button>
-          <span> Excellent</span>
-        </div>
-      </div>
-      <div className="fpItem">
-        <img
-          src="https://th.bing.com/th/id/OIP.QycJU32I48eI_esWhJ2CXAAAAA?rs=1&pid=ImgDetMain"
-          alt=""
-          className="fpImg"
-        />
-        <span className="fpName">12 Hotel </span>
-        <span className="fpCity">Galway </span>
-        <span className="fpPrice">Starting from £150</span>
-        <div className="fpRating">
-          <button>4.5</button>
-          <span> Excellent</span>
-        </div>
-      </div>
-      <div className="fpItem">
-        <img
-          src="https://th.bing.com/th/id/OIP.QycJU32I48eI_esWhJ2CXAAAAA?rs=1&pid=ImgDetMain"
-          alt=""
-          className="fpImg"
-        />
-        <span className="fpName">12 Hotel </span>
-        <span className="fpCity">Galway </span>
-        <span className="fpPrice">Starting from £150</span>
-        <div className="fpRating">
-          <button>4.5</button>
-          <span> Excellent</span>
-        </div>
-      </div>
+      ))}
+      </>
+      }
+      
     </div>
   );
 };
