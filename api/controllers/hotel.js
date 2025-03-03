@@ -44,15 +44,31 @@ export const getHotel = async(req, res, next)=>{
         
 }
 
-export const getAllHotels = async(req, res, next)=>{
-    try{
-        const hotels = await Hotel.find();
-        res.status(200).json(hotels)
-    }catch(err){
+export const getAllHotels = async (req, res, next) => {
+    try {
+        // Convert query parameters to numbers
+        const minPrice = parseInt(req.query.min) || 1;
+        const maxPrice = parseInt(req.query.max) || 999;
+        const limit = parseInt(req.query.limit) || 0; // Default 0 means no limit
+        
+        // Build filter object dynamically
+        const filters = { ...req.query };
+        delete filters.min;
+        delete filters.max;
+        delete filters.limit;
+
+        // Add price range condition
+        filters.cheapestPrice = { $gte: minPrice, $lte: maxPrice };
+
+        // Fetch hotels with filter and limit
+        const hotels = await Hotel.find(filters).limit(limit);
+        
+        res.status(200).json(hotels);
+    } catch (err) {
         next(err);
     }
-        
-}
+};
+
 
 export const countByCity = async(req, res, next)=>{
     const cities = req.query.cities.split(",")

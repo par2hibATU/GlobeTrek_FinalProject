@@ -8,6 +8,7 @@ import {
   faPlane,
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 
 
@@ -16,7 +17,10 @@ export const Navbar = () => {
     <div className="navbar">
 
       <div className="navContainer">
-        <span className="logo">GlobeTrek</span>
+        <Link to="/" style={{color:"inherit",textDecoration:"none"}}>
+          <span className="logo">GlobeTrek</span>
+        </Link>
+
         <div className="navbarRegisterItems">
           <button className="navButton">Register</button>
           <button className="navButton">Login</button>
