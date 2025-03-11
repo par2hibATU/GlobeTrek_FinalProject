@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./hotel.css";
 import Navbar from "../../components/navbar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -32,7 +32,10 @@ export const Hotel = () => {
     return diffDays;
   }
 
-  const days = dayDifference(dates[0].endDate, dates[0].startDate);
+
+  const days = dates.length > 0 
+  ? dayDifference(dates[0].endDate, dates[0].startDate) 
+  : 0;
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -120,7 +123,8 @@ export const Hotel = () => {
                   time at +353 91 865200, or drop us a line
                 </span>
                 <h2>
-                  <b>£{days * data.cheapestPrice * options.room}</b> ( {days}{" "}
+                  
+                  <b>${days * data.cheapestPrice * options.room}</b> ( {days}{" "}
                   nights)
                 </h2>
                 <button>Reserve or Book now!</button>
