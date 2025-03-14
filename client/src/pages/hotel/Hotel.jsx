@@ -17,6 +17,7 @@ import { SearchContext } from "../../context/SearchContext";
 
 export const Hotel = () => {
   const location = useLocation();
+  console.log(location)
   const id = location.pathname.split("/")[2]; //it [2] cause remember the URL (/hotels/id), so hotelId is in pos 2
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
