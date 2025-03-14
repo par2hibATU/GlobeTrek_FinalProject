@@ -19,6 +19,7 @@ function App() {
       <Route path="/map" element = {<Map />} />
       <Route path="/contact" element = {<Contact />} />
       <Route path="/weather" element = {<Weather />} />
+      
     </Routes>
     </BrowserRouter>
   );
