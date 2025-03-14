@@ -76,7 +76,7 @@ export const Header = ({ type }) => {
     );
   };
 
-  const {dispatch} = useContext(SearchContext)
+  const {dispatch} = useContext(SearchContext);
 
   const handleSearch = () => {
     dispatch({type: "NEW_SEARCH", payload: {destination, dates, options}});
