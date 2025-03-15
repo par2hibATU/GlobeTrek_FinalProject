@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,10 +9,14 @@ import {
   faTaxi,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 
 
 export const Navbar = () => {
+  const { user } = useContext(AuthContext);
+  console.log("Navbar user:", user); // Debugging
+
   return (
     <div className="navbar">
 
@@ -21,10 +25,10 @@ export const Navbar = () => {
           <span className="logo">GlobeTrek</span>
         </Link>
 
-        <div className="navbarRegisterItems">
+        {user ? user.username : (<div className="navbarRegisterItems">
           <button className="navButton">Register</button>
           <button className="navButton">Login</button>
-        </div>
+        </div>)}
 
         <div className="navItems">
           <div className="navbarList">
