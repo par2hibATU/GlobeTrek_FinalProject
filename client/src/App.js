@@ -6,6 +6,7 @@ import MailList from "./pages/mailList/MailList";
 import Map from "./pages/map/Map";
 import Contact from "./pages/contact/Contact";
 import Weather from "./pages/weather/Weather";
+import Login from "./pages/login/Login";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
       <Route path="/map" element = {<Map />} />
       <Route path="/contact" element = {<Contact />} />
       <Route path="/weather" element = {<Weather />} />
-      
+      <Route path="/login" element={<Login/>} />
     </Routes>
     </BrowserRouter>
   );
