@@ -15,6 +15,7 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
 
 
 
@@ -50,6 +51,7 @@ export const Header = ({ type }) => {
   };
 
   const navigate = useNavigate()
+  const { user } = useContext(AuthContext)
 
   const customDayContent = (day) => {
     let extraDot = null;
