@@ -7,6 +7,7 @@ import Map from "./pages/map/Map";
 import Contact from "./pages/contact/Contact";
 import Weather from "./pages/weather/Weather";
 import Login from "./pages/login/Login";
+import ProfileDashboard from "./pages/profile/ProfileDashboard";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
       <Route path="/contact" element = {<Contact />} />
       <Route path="/weather" element = {<Weather />} />
       <Route path="/login" element={<Login/>} />
+      <Route path="/profile" element={<ProfileDashboard />} />
     </Routes>
     </BrowserRouter>
   );
