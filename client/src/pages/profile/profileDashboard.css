@@ -1,0 +1,30 @@
+.profileDashboard {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.bookingsList {
+  margin-top: 20px;
+}
+
+.bookingCard {
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.payNowButton {
+  background-color: #0071c2;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.payNowButton:hover {
+  background-color: #005b99;
+}
