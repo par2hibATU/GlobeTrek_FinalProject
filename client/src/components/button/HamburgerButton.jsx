@@ -15,10 +15,10 @@ export const HamburgerButton = () => {
   };
 
   const handleMapClick2 = () => {
-    navigate("/contact"); // Navigate to the map page
+    navigate("/contact"); // Navigate to the contact page
   };
   const handleMapClick3 = () => {
-    navigate("/weather"); // Navigate to the map page
+    navigate("/weather"); // Navigate to the weather page
   };
   return (
     <div>
