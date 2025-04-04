@@ -84,6 +84,41 @@
     border-radius: 20px;
 }
 
+.userProfileSection {
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .userIcon {
+    display: flex;
+    align-items: center;
+    color: white;
+  }
+  
+  .dropdownMenu {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+    min-width: 150px;
+    overflow: hidden;
+  }
+  
+  .dropdownItem {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: black;
+  }
+  
+  .dropdownItem:hover {
+    background-color: #bd3817;
+  }
+  
+
 @media (max-width: 768px) {
     .navbar {
         height: auto; /* Allow navbar height to adjust dynamically */

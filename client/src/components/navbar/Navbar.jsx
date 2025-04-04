@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./navbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -7,6 +7,8 @@ import {
   faLocation,
   faPlane,
   faTaxi,
+  faUser,
+
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -14,9 +16,17 @@ import { AuthContext } from "../../context/AuthContext";
 
 
 export const Navbar = () => {
-  const { user } = useContext(AuthContext);
-  console.log("Navbar user:", user); // Debugging
+  const navigate = useNavigate();
 
+  const { user, dispatch } = useContext(AuthContext);
+  console.log("Navbar user:", user); // Debugging
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    localStorage.removeItem("user");
+    navigate("/")
+  }
   return (
     <div className="navbar">
 
@@ -25,10 +35,34 @@ export const Navbar = () => {
           <span className="logo">GlobeTrek</span>
         </Link>
 
-        {user ? user.username : (<div className="navbarRegisterItems">
+        {user ? (
+          <div className="userProfileSection">
+            <div className="userIcon" onClick={() => setMenuOpen(!menuOpen)}>
+              <FontAwesomeIcon icon={faUser} />
+              <span style={{ marginLeft : "5px" }}>{user.username}</span>
+            </div>
+            {menuOpen && (
+              <div className="dropdownMenu">
+                <div className="dropdownItem"
+                onClick={() => {
+                  setMenuOpen(false);
+                  navigate("/profile");
+                }}
+                >
+                  Profile Dashboard
+                  </div>
+                  <div className="dropdownItem" onClick={handleLogout}>
+                  Log Out
+                </div>
+              </div>
+            )}
+            </div>
+        ) : (
+        <div className="navbarRegisterItems">
           <button className="navButton">Register</button>
-          <button className="navButton">Login</button>
-        </div>)}
+          <button className="navButton" onClick={() => navigate("/login")}>Login</button>
+        </div>
+      )}
 
         <div className="navItems">
           <div className="navbarList">
