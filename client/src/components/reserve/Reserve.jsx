@@ -5,7 +5,7 @@ import "./reserve.css";
 import useFetch from "../../hooks/useFetch";
 import { useContext, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
-import { AuthContext } from "../../context/AuthContext"; // 👈 added
+import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -13,7 +13,7 @@ const Reserve = ({ setOpen, hotelId }) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
   const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
   const { dates } = useContext(SearchContext);
-  const { user } = useContext(AuthContext); // 👈 added
+  const { user } = useContext(AuthContext); 
   const navigate = useNavigate();
 
   const getDatesInRange = (startDate, endDate) => {
@@ -53,6 +53,7 @@ const Reserve = ({ setOpen, hotelId }) => {
   const handleClick = async () => {
     try {
       // 1. Mark selected rooms as unavailable
+      console.log("Reserve button clicked");
       await Promise.all(
         selectedRooms.map((roomId) => {
           return axios.put(`/rooms/availability/${roomId}`, {
@@ -69,6 +70,7 @@ const Reserve = ({ setOpen, hotelId }) => {
         dates: alldates,
         price: selectedRooms.length * data[0].price * alldates.length,
       });
+      
 
       setOpen(false);
       navigate("/profile"); 
