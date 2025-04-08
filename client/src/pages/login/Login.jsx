@@ -5,7 +5,6 @@ import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-
 const Login = () => {
   const [credentials, setCredentials] = useState({
     username: undefined,
@@ -14,7 +13,7 @@ const Login = () => {
 
   const { loading, error, dispatch } = useContext(AuthContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -28,12 +27,11 @@ const Login = () => {
       console.log("Login Response:", res.data);
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
       console.log("Updated User in Context:", res.data);
-      navigate("/")
+      navigate("/");
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
-
 
   return (
     <div className="login">
@@ -56,6 +54,9 @@ const Login = () => {
           Login
         </button>
         {error && <span>{error.message}</span>}
+        <p className="registerText">
+          Don't have an account? <a href="/register">Register</a>
+        </p>
       </div>
     </div>
   );
