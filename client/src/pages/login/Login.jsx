@@ -3,6 +3,9 @@ import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import "./login.css";
+import Navbar from "../../components/navbar/Navbar_for_Login.jsx";
+import Subscribe from "../mailList/Subscribe";
+import Footer from "../../components/footer/Footer";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
@@ -34,30 +37,41 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
-      <div className="lContainer">
-        <input
-          type="text"
-          placeholder="username"
-          id="username"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <button disabled={loading} onClick={handleClick} className="lButton">
-          Login
-        </button>
-        {error && <span>{error.message}</span>}
-        <p className="registerText">
-          Don't have an account? <a href="/register">Register</a>
-        </p>
+    <div>
+      <Navbar />
+      <div className="background">
+        <div className="login">
+          <div className="lContainer">
+            <input
+              type="text"
+              placeholder="username"
+              id="username"
+              onChange={handleChange}
+              className="lInput"
+            />
+            <input
+              type="password"
+              placeholder="password"
+              id="password"
+              onChange={handleChange}
+              className="lInput"
+            />
+            <button
+              disabled={loading}
+              onClick={handleClick}
+              className="lButton"
+            >
+              Login
+            </button>
+            {error && <span>{error.message}</span>}
+            <p className="registerText">
+              Don't have an account? <a href="/register">Register</a>
+            </p>
+          </div>
+        </div>
       </div>
+      <Subscribe />
+      <Footer />
     </div>
   );
 };

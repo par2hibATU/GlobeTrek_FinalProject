@@ -9,10 +9,6 @@ import Footer from "../../components/footer/Footer";
 import HamburgerButton from "../../components/button/HamburgerButton";
 
 
-
-
- 
-
 export const Home = () => {
   return (
     <div>

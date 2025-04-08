@@ -1,3 +1,7 @@
+.background{
+  background-color: #d7e2e2;
+}
+
 .login {
     height: 100vh;
     display: flex;
