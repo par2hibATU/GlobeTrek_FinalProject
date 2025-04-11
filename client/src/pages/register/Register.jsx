@@ -5,3 +5,13 @@ import "./register.css";
 import Navbar from "../../components/navbar/Navbar_for_Login.jsx";
 import Subscribe from "../mailList/Subscribe";
 import Footer from "../../components/footer/Footer";
+
+const Register = () => {
+    const [userData, setUserData] = useState({
+        username:"",
+        email: "",
+        password:"",
+    });
+
+    const [error,]
+}
