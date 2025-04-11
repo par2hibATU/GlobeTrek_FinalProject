@@ -59,7 +59,7 @@ export const Navbar = () => {
             </div>
         ) : (
         <div className="navbarRegisterItems">
-          <button className="navButton">Register</button>
+          <button className="navButton"onClick={() => navigate("/register")}>Register</button>
           <button className="navButton" onClick={() => navigate("/login")}>Login</button>
         </div>
       )}
