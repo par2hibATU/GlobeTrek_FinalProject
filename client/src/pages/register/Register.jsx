@@ -13,5 +13,22 @@ const Register = () => {
         password:"",
     });
 
-    const [error,]
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    const handleChange = (e) => {
+        setUserData((prev) => ({ ...prev, [e.target.id]: e.target.value}));
+    };
+
+    const handleRegister = async(e) => {
+        e.preventDefault();
+        try{
+            await axios.post("/auth/register", userData);
+            navigate("/login");
+        }catch(err) {
+            setError(err.response?.data?.message || "Registration Failed.");
+        }
+    };
+
+    
 }
