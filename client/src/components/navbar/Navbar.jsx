@@ -73,7 +73,7 @@ export const Navbar = () => {
 
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faPlane} />
-              <span>Flights</span>
+              <span onClick={() => navigate("/flight")}>Flights</span>
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faCar} />
