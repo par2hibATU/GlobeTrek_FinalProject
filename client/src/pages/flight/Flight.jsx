@@ -29,7 +29,47 @@ const Flight = () => {
 
     let endpoint = " ";
 
-    try
-  }
+    try {
+        const { from, to, date, returnDate } = formInputs;
+        
+        switch (apiChoice){
+            case "oneway":
+                endpoint = ``;
+                break;
+            case "round":
+                endpoint = ``;
+                break;
+            case "multi":
+                endpoint = ``;
+                break;
+            case "tracking":
+                endpoint = ``;
+                break;
+            case "schedule":
+                endpoint = ``;
+                break;
+            case "airportcode":
+                endpoint = ``;
+                break;
+            
+            default:
+                throw new Error("Invalid API type selected");
+            
+        }
+        const res = await axios.get(endpoint);
+        const data = res.data;
+
+        setResults(data?.fares || data || []);
+    }catch (err){
+        console.error("API error:", err);
+        setErrorMsg("Could not fetch flight data. Try again later.");
+    } finally {
+        setLoading(false);
+    }
+  };
+
+  return (
+    
+  )
 
 };
