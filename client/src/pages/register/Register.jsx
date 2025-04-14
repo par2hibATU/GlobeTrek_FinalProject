@@ -30,5 +30,30 @@ const Register = () => {
         }
     };
 
+    return (
+        <div>
+            <Navbar />
+            <div className="background">
+                <div className="register">
+                    <div className="rContainer">
+                        <h2>Create Account</h2>
+                        <input
+                        type="text"
+                        placeholder="Username"
+                        id="username"
+                        onChange={handleChange}
+                        className="rInput"
+                        />
+                        <input 
+                        type="email"
+                        placeholder="Email"
+                        />
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    )
+
     
 }
