@@ -122,6 +122,20 @@ const Flight = () => {
 
         {errorMsg && <p className="error">{errorMsg}</p>}
       </div>
+
+      <div className="resultsBox">
+        {resuts.length > 0 ? (
+            results.map((item, idx) => (
+                <div key={idx} className="resultCard">
+                    <pre>{JSON.stringify(item, null, 2)}</pre>
+                </div>
+            ))
+        ): (
+            !loading && <p className="noResults">No results to show</p>
+        )}
+      </div>
     </div>
   );
 };
+
+export default Flight;

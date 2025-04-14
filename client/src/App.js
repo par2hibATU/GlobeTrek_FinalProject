@@ -9,6 +9,7 @@ import Weather from "./pages/weather/Weather";
 import Login from "./pages/login/Login";
 import ProfileDashboard from "./pages/profile/ProfileDashboard";
 import Register from "./pages/register/Register";
+import Flight from "./pages/flight/Flight";
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
       <Route path="/weather" element = {<Weather />} />
       <Route path="/login" element={<Login/>} />
       <Route path="/register" element={<Register/>} />
-
+      <Route path="/flight" element={<Flight/>} />
       <Route path="/profile" element={<ProfileDashboard />} />
     </Routes>
     </BrowserRouter>
