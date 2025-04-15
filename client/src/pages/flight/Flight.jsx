@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./flight.css";
 
+const airportData = {
+  letterkenny: { name: "Letterkenny", iata: "LTR", lat: 54.94999, lng: -7.73332 },
+  signature: { name: "Dublin Signature", iata: "DSA", lat: 53.42989, lng: -6.2454 },
+  shannon: { name: "Shannon", iata: "SNN", lat: 52.69966, lng: -8.91469 },
+  dublin: { name: "Dublin", iata: "DUB", lat: 52.69966, lng: -8.91469 },
+  cork: { name: "Cork", iata: "ORK", lat: 51.84493, lng: -8.49279 }
+};
+
+
 const Flight = () => {
   const [apiChoice, setApiChoice] = useState("oneway");
 
