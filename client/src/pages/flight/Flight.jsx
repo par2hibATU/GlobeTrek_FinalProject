@@ -21,13 +21,15 @@ const Flight = () => {
     returnDate: "",
     cabinClass: "",
     currency: "",
+    selectedAirport: ""
   });
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const apiKey = "ca58f54fcfmshc9094c7708a82fdp13d1bajsn692a9dac2899"; 
+  const flightApiKey = "ca58f54fcfmshc9094c7708a82fdp13d1bajsn692a9dac2899"; 
+  const rapidApiKey = "YOUR_RAPIDAPI_KEY";
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -41,56 +43,51 @@ const Flight = () => {
     e.preventDefault();
     setLoading(true);
     setErrorMsg(null);
-
-    const {
-      from,
-      to,
-      date,
-      returnDate,
-      cabinClass,
-      currency,
-    } = formInputs;
+    setResults([]);
 
     let endpoint = "";
 
     try {
-      // Build endpoint based on selected API type
-      switch (apiChoice) {
-        case "oneway":
-          endpoint = `https://api.flightapi.io/onewaytrip/${apiKey}/${from}/${to}/${date}/1/0/0/${cabinClass}/${currency}`;
-          break;
+      const {
+        from,
+        to,
+        date,
+        returnDate,
+        cabinClass,
+        currency,
+        selectedAirport
+      } = formInputs;
 
-        case "round":
-          endpoint = `https://api.flightapi.io/roundtrip/${apiKey}/${from}/${to}/${date}/${returnDate}/1/0/0/${cabinClass}/${currency}`;
-          break;
+      if (apiChoice === "airportsLive") {
+        const selectedIATA = airportData[selectedAirport].iata;
+        endpoint = `https://aerodatabox.p.rapidapi.com/flights/airports/iata/${selectedIATA}?offsetMinutes=-120&durationMinutes=720&withLeg=true&direction=Both&withCancelled=true&withCodeshared=true&withCargo=true&withPrivate=true&withLocation=false`;
 
-        case "multi":
-          endpoint = `https://api.flightapi.io/multitrip/${apiKey}?arp1=${from}&arp2=${to}&date1=${date}&adults=1&children=0&infants=0&cabinclass=${cabinClass}&currency=${currency}`;
-          break;
+        const res = await axios.get(endpoint, {
+          headers: {
+            "x-rapidapi-host": "aerodatabox.p.rapidapi.com",
+            "x-rapidapi-key": rapidApiKey
+          }
+        });
 
-        case "tracking":
-          endpoint = `https://api.flightapi.io/airline/${apiKey}?num=33&name=DL&date=${date.replace(/-/g, "")}`;
-          break;
+        setResults(res.data?.departures || res.data?.arrivals || []);
+      } else {
+        switch (apiChoice) {
+          case "oneway":
+            endpoint = `https://api.flightapi.io/onewaytrip/${flightApiKey}/${from}/${to}/${date}/1/0/0/${cabinClass}/${currency}`;
+            break;
+          case "round":
+            endpoint = `https://api.flightapi.io/roundtrip/${flightApiKey}/${from}/${to}/${date}/${returnDate}/1/0/0/${cabinClass}/${currency}`;
+            break;
+          default:
+            throw new Error("Unsupported API type.");
+        }
 
-        case "schedule":
-          endpoint = `https://api.flightapi.io/schedule/${apiKey}?mode=departures&iata=${from}&day=1`;
-          break;
-
-        case "airportcode":
-          endpoint = `https://api.flightapi.io/iata/${apiKey}?name=${from}&type=airport`;
-          break;
-
-        default:
-          throw new Error("Unsupported API type selected.");
+        const res = await axios.get(endpoint);
+        setResults(res.data?.fares || []);
       }
-
-      const res = await axios.get(endpoint);
-      const data = res.data;
-
-      setResults(data?.fares || data || []);
     } catch (err) {
-      console.error("API Error:", err);
-      setErrorMsg("Something went wrong. Please try again later.");
+      console.error("API error:", err);
+      setErrorMsg("Could not fetch flight data. Please try again later.");
     } finally {
       setLoading(false);
     }
