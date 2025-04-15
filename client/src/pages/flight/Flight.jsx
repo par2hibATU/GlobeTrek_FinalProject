@@ -18,7 +18,7 @@ const Flight = () => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const apiKey = "67f8cdfdcd732d3b8f06b672"; 
+  const apiKey = "ca58f54fcfmshc9094c7708a82fdp13d1bajsn692a9dac2899"; 
 
   const handleInput = (e) => {
     const { name, value } = e.target;
