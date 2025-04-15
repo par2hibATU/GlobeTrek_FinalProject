@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Navbar from "../../components/navbar/Navbar_for_Login.jsx";
+import Subscribe from "../mailList/Subscribe";
+import Footer from "../../components/footer/Footer";
 import "./flight.css";
 
 const airportData = {
@@ -97,167 +100,230 @@ const Flight = () => {
     }
   };
 
+  const getDepartureAirport = (flight) => {
+    return (
+      (typeof flight?.departure?.airport === "object"
+        ? flight?.departure?.airport?.name
+        : flight?.departure?.airport) ||
+      flight?.departureAirport?.name ||
+      flight?.departure?.airportName ||
+      airportData[formInputs.selectedAirport]?.name ||
+      "Unknown"
+    );
+  };
+
+  const getArrivalAirport = (flight) => {
+    return (
+      (typeof flight?.arrival?.airport === "object"
+        ? flight?.arrival?.airport?.name
+        : flight?.arrival?.airport) ||
+      flight?.arrivalAirport?.name ||
+      flight?.arrival?.airportName ||
+      airportData[formInputs.selectedAirport]?.name ||
+      "Unknown"
+    );
+  };
+
   return (
-    <div className="flightWrapper">
-      <div className="searchBox">
-        <h2>Flight Finder</h2>
-  
-        <select
-          value={apiChoice}
-          onChange={(e) => setApiChoice(e.target.value)}
-          className="dropdown"
-        >
-          <option value="oneway">One-way Trip</option>
-          <option value="round">Round Trip</option>
-          <option value="airportsLive">Live Flights at Irish Airports</option>
-        </select>
-  
-        <form onSubmit={handleSubmit} className="searchForm">
-          {(apiChoice === "oneway" || apiChoice === "round") && (
-            <>
-              <input
-                type="text"
-                name="from"
-                placeholder="From (e.g. JFK)"
-                onChange={handleInput}
-                required
-              />
-              <input
-                type="text"
-                name="to"
-                placeholder="To (e.g. LHR)"
-                onChange={handleInput}
-                required
-              />
-              <input type="date" name="date" onChange={handleInput} required />
-              {apiChoice === "round" && (
+    <div>
+      <Navbar />
+      <div className="flightWrapper">
+        <div className="searchBox">
+          <h2>Flight Finder</h2>
+
+          <select
+            value={apiChoice}
+            onChange={(e) => setApiChoice(e.target.value)}
+            className="dropdown"
+          >
+            <option value="oneway">One-way Trip</option>
+            <option value="round">Round Trip</option>
+            <option value="airportsLive">Live Flights at Irish Airports</option>
+          </select>
+
+          <form onSubmit={handleSubmit} className="searchForm">
+            {(apiChoice === "oneway" || apiChoice === "round") && (
+              <>
                 <input
-                  type="date"
-                  name="returnDate"
+                  type="text"
+                  name="from"
+                  placeholder="From (e.g. JFK)"
                   onChange={handleInput}
                   required
                 />
-              )}
+                <input
+                  type="text"
+                  name="to"
+                  placeholder="To (e.g. LHR)"
+                  onChange={handleInput}
+                  required
+                />
+                <input
+                  type="date"
+                  name="date"
+                  onChange={handleInput}
+                  required
+                />
+                {apiChoice === "round" && (
+                  <input
+                    type="date"
+                    name="returnDate"
+                    onChange={handleInput}
+                    required
+                  />
+                )}
+                <select
+                  name="cabinClass"
+                  onChange={handleInput}
+                  defaultValue="ECONOMY"
+                >
+                  <option value="ECONOMY">Economy</option>
+                  <option value="PREMIUM_ECONOMY">Premium Economy</option>
+                  <option value="BUSINESS">Business</option>
+                  <option value="FIRST">First</option>
+                </select>
+
+                <select
+                  name="currency"
+                  onChange={handleInput}
+                  defaultValue="USD"
+                >
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                  <option value="GBP">GBP</option>
+                </select>
+              </>
+            )}
+
+            {apiChoice === "airportsLive" && (
               <select
-                name="cabinClass"
-                onChange={handleInput}
-                defaultValue="ECONOMY"
+                name="selectedAirport"
+                value={formInputs.selectedAirport}
+                onChange={(e) =>
+                  setFormInputs((prev) => ({
+                    ...prev,
+                    selectedAirport: e.target.value,
+                  }))
+                }
               >
-                <option value="ECONOMY">Economy</option>
-                <option value="PREMIUM_ECONOMY">Premium Economy</option>
-                <option value="BUSINESS">Business</option>
-                <option value="FIRST">First</option>
+                {Object.entries(airportData).map(([key, airport]) => (
+                  <option key={key} value={key}>
+                    {airport.name}
+                  </option>
+                ))}
               </select>
-  
-              <select
-                name="currency"
-                onChange={handleInput}
-                defaultValue="USD"
-              >
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-              </select>
-            </>
-          )}
-  
-          {apiChoice === "airportsLive" && (
-            <select
-              name="selectedAirport"
-              value={formInputs.selectedAirport}
-              onChange={(e) =>
-                setFormInputs((prev) => ({
-                  ...prev,
-                  selectedAirport: e.target.value,
-                }))
-              }
-            >
-              {Object.entries(airportData).map(([key, airport]) => (
-                <option key={key} value={key}>
-                  {airport.name}
-                </option>
-              ))}
-            </select>
-          )}
-  
-          <button type="submit" disabled={loading}>
-            {loading ? "Searching..." : "Search"}
-          </button>
-        </form>
-  
-        {errorMsg && <p className="error">{errorMsg}</p>}
-      </div>
-  
-      {/* FLIGHT RESULTS */}
-      <div className="resultsSplitContainer">
-        {/* Departed Flights */}
-        <div className="resultsColumn">
-          <h3>🛫 Departed Flights</h3>
-          {results
-            .filter((item) => (item.status || "").toLowerCase() === "departed")
-            .map((item, idx) => {
-              const flight = item.departure && item.arrival ? item : item.legs?.[0];
-              return (
-                <div key={idx} className="resultCard departed">
-                  <h4>{item.airline?.name || flight?.airline?.name || "Airline"}</h4>
-                  <p><strong>Flight:</strong> {item.number || flight?.number}</p>
-                  <p>
-                    <strong>From:</strong>{" "}
-                    {flight?.departure?.airport?.name || "Unknown"}{" "}
-                    <span className="time">
-                      ({formatTime(flight?.departure?.scheduledTime)})
-                    </span>
-                  </p>
-                  <p>
-                    <strong>To:</strong> {flight?.arrival?.airport?.name || "Unknown"}{" "}
-                    <span className="time">
-                      ({formatTime(flight?.arrival?.scheduledTime)})
-                    </span>
-                  </p>
-                  <p><strong>Status:</strong> {item.status}</p>
-                </div>
-              );
-            })}
+            )}
+
+            <button type="submit" disabled={loading}>
+              {loading ? "Searching..." : "Search"}
+            </button>
+          </form>
+
+          {errorMsg && <p className="error">{errorMsg}</p>}
         </div>
-  
-        {/* Expected Flights */}
-        <div className="resultsColumn">
-          <h3>⏳ Expected Flights</h3>
-          {results
-            .filter((item) => (item.status || "").toLowerCase() !== "departed")
-            .map((item, idx) => {
-              const flight = item.departure && item.arrival ? item : item.legs?.[0];
-              return (
-                <div key={idx} className="resultCard expected">
-                  <h4>{item.airline?.name || flight?.airline?.name || "Airline"}</h4>
-                  <p><strong>Flight:</strong> {item.number || flight?.number}</p>
-                  <p>
-                    <strong>From:</strong>{" "}
-                    {flight?.departure?.airport?.name || "Unknown"}{" "}
-                    <span className="time">
-                      ({formatTime(flight?.departure?.scheduledTime)})
-                    </span>
-                  </p>
-                  <p>
-                    <strong>To:</strong> {flight?.arrival?.airport?.name || "Unknown"}{" "}
-                    <span className="time">
-                      ({formatTime(flight?.arrival?.scheduledTime)})
-                    </span>
-                  </p>
-                  <p><strong>Status:</strong> {item.status || "Expected"}</p>
-                </div>
-              );
-            })}
+
+        {/* FLIGHT RESULTS */}
+        <div className="resultsSplitContainer">
+          {/* Departed Flights */}
+          <div className="resultsColumn">
+            <h3>🛫 Departed Flights</h3>
+            {results
+              .filter(
+                (item) => (item.status || "").toLowerCase() === "departed"
+              )
+              .map((item, idx) => {
+                const flight =
+                  item.departure && item.arrival ? item : item.legs?.[0];
+                return (
+                  <div key={idx} className="resultCard departed">
+                    <h4>
+                      {item.airline?.name || flight?.airline?.name || "Airline"}
+                    </h4>
+                    <p>
+                      <strong>Flight:</strong> {item.number || flight?.number}
+                    </p>
+                    <p>
+                      <strong>From:</strong> {getDepartureAirport(flight)}{" "}
+                      <span className="time">
+                        ({formatTime(flight?.departure?.scheduledTime)})
+                      </span>
+                    </p>
+
+                    <p>
+                      <strong>To:</strong>{" "}
+                      {typeof flight?.arrival?.airport === "object"
+                        ? flight?.arrival?.airport?.name
+                        : flight?.arrival?.airport ||
+                          flight?.arrivalAirport?.name ||
+                          flight?.arrival?.airportName ||
+                          "Unknown"}{" "}
+                      <span className="time">
+                        ({formatTime(flight?.arrival?.scheduledTime)})
+                      </span>
+                    </p>
+                    <p>
+                      <strong>Status:</strong> {item.status}
+                    </p>
+                  </div>
+                );
+              })}
+          </div>
+
+          {/* Expected Flights */}
+          <div className="resultsColumn">
+            <h3>⏳ Expected Flights</h3>
+            {results
+              .filter(
+                (item) => (item.status || "").toLowerCase() !== "departed"
+              )
+              .map((item, idx) => {
+                const flight =
+                  item.departure && item.arrival ? item : item.legs?.[0];
+                return (
+                  <div key={idx} className="resultCard expected">
+                    <h4>
+                      {item.airline?.name || flight?.airline?.name || "Airline"}
+                    </h4>
+                    <p>
+                      <strong>Flight:</strong> {item.number || flight?.number}
+                    </p>
+                    <p>
+                      <strong>From:</strong>{" "}
+                      {typeof flight?.departure?.airport === "object"
+                        ? flight?.departure?.airport?.name
+                        : flight?.departure?.airport ||
+                          flight?.departureAirport?.name ||
+                          flight?.departure?.airportName ||
+                          "Unknown"}{" "}
+                      <span className="time">
+                        ({formatTime(flight?.departure?.scheduledTime)})
+                      </span>
+                    </p>
+                    <p>
+                      <strong>To:</strong> {getArrivalAirport(flight)}{" "}
+                      <span className="time">
+                        ({formatTime(flight?.arrival?.scheduledTime)})
+                      </span>
+                    </p>
+
+                    <p>
+                      <strong>Status:</strong> {item.status || "Expected"}
+                    </p>
+                  </div>
+                );
+              })}
+          </div>
         </div>
+
+        {/* Fallback */}
+        {!loading && results.length === 0 && (
+          <p className="noResults">No results to show.</p>
+        )}
       </div>
-  
-      {/* Fallback */}
-      {!loading && results.length === 0 && (
-        <p className="noResults">No results to show.</p>
-      )}
+      <Subscribe />
+      <Footer />
     </div>
   );
-  
 };
 
 export default Flight;
