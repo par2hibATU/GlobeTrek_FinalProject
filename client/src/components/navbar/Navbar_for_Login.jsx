@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBed,
   faCar,
+  faCoins,
   faLocation,
   faPlane,
   faTaxi,
@@ -55,8 +56,8 @@ export const Navbar = () => {
               <span>Attraction</span>
             </div>
             <div className="navbarListItem">
-              <FontAwesomeIcon icon={faTaxi} />
-              <span>Airport Taxis</span>
+              <FontAwesomeIcon icon={faCoins} />
+              <span>Currecny Exchange</span>
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faLocation} />
