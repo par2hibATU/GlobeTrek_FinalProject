@@ -30,7 +30,7 @@ const Flight = () => {
     returnDate: "",
     cabinClass: "",
     currency: "",
-    selectedAirport: "",
+    selectedAirport: "dublin", // Changed default to match object key
   });
 
   const [results, setResults] = useState([]);
@@ -46,6 +46,13 @@ const Flight = () => {
       ...prev,
       [name]: value.toUpperCase(),
     }));
+  };
+
+  const formatTime = (timeObj) => {
+    if (typeof timeObj === "object" && timeObj?.local) {
+      return new Date(timeObj.local).toLocaleString();
+    }
+    return "-";
   };
 
   const handleSubmit = async (e) => {
@@ -68,7 +75,7 @@ const Flight = () => {
       } = formInputs;
 
       if (apiChoice === "airportsLive") {
-        const selectedIATA = airportData[selectedAirport].iata;
+        const selectedIATA = airportData[selectedAirport]?.iata;
         endpoint = `https://aerodatabox.p.rapidapi.com/flights/airports/iata/${selectedIATA}?offsetMinutes=-120&durationMinutes=720&withLeg=true&direction=Both&withCancelled=true&withCodeshared=true&withCargo=true&withPrivate=true&withLocation=false`;
 
         const res = await axios.get(endpoint, {
@@ -166,7 +173,12 @@ const Flight = () => {
             <select
               name="selectedAirport"
               value={formInputs.selectedAirport}
-              onChange={handleInput}
+              onChange={(e) =>
+                setFormInputs((prev) => ({
+                  ...prev,
+                  selectedAirport: e.target.value,
+                }))
+              }
             >
               {Object.entries(airportData).map(([key, airport]) => (
                 <option key={key} value={key}>
@@ -205,14 +217,14 @@ const Flight = () => {
                     <strong>From:</strong>{" "}
                     {flight?.departure?.airport?.name || "Unknown"}{" "}
                     <span className="time">
-                      ({flight?.departure?.scheduledTime || "-"})
+                      ({formatTime(flight?.departure?.scheduledTime)})
                     </span>
                   </p>
                   <p>
                     <strong>To:</strong>{" "}
                     {flight?.arrival?.airport?.name || "Unknown"}{" "}
                     <span className="time">
-                      ({flight?.arrival?.scheduledTime || "-"})
+                      ({formatTime(flight?.arrival?.scheduledTime)})
                     </span>
                   </p>
                   {item.status && (
