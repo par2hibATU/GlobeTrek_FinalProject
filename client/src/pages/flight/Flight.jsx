@@ -3,13 +3,22 @@ import axios from "axios";
 import "./flight.css";
 
 const airportData = {
-  letterkenny: { name: "Letterkenny", iata: "LTR", lat: 54.94999, lng: -7.73332 },
-  signature: { name: "Dublin Signature", iata: "DSA", lat: 53.42989, lng: -6.2454 },
+  letterkenny: {
+    name: "Letterkenny",
+    iata: "LTR",
+    lat: 54.94999,
+    lng: -7.73332,
+  },
+  signature: {
+    name: "Dublin Signature",
+    iata: "DSA",
+    lat: 53.42989,
+    lng: -6.2454,
+  },
   shannon: { name: "Shannon", iata: "SNN", lat: 52.69966, lng: -8.91469 },
   dublin: { name: "Dublin", iata: "DUB", lat: 52.69966, lng: -8.91469 },
-  cork: { name: "Cork", iata: "ORK", lat: 51.84493, lng: -8.49279 }
+  cork: { name: "Cork", iata: "ORK", lat: 51.84493, lng: -8.49279 },
 };
-
 
 const Flight = () => {
   const [apiChoice, setApiChoice] = useState("oneway");
@@ -21,15 +30,15 @@ const Flight = () => {
     returnDate: "",
     cabinClass: "",
     currency: "",
-    selectedAirport: ""
+    selectedAirport: "",
   });
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const flightApiKey = "ca58f54fcfmshc9094c7708a82fdp13d1bajsn692a9dac2899"; 
-  const rapidApiKey = "YOUR_RAPIDAPI_KEY";
+  const flightApiKey = "ca58f54fcfmshc9094c7708a82fdp13d1bajsn692a9dac2899";
+  const rapidApiKey = "ca58f54fcfmshc9094c7708a82fdp13d1bajsn692a9dac2899";
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -55,7 +64,7 @@ const Flight = () => {
         returnDate,
         cabinClass,
         currency,
-        selectedAirport
+        selectedAirport,
       } = formInputs;
 
       if (apiChoice === "airportsLive") {
@@ -65,8 +74,8 @@ const Flight = () => {
         const res = await axios.get(endpoint, {
           headers: {
             "x-rapidapi-host": "aerodatabox.p.rapidapi.com",
-            "x-rapidapi-key": rapidApiKey
-          }
+            "x-rapidapi-key": rapidApiKey,
+          },
         });
 
         setResults(res.data?.departures || res.data?.arrivals || []);
@@ -134,7 +143,11 @@ const Flight = () => {
                   required
                 />
               )}
-              <select name="cabinClass" onChange={handleInput} defaultValue="ECONOMY">
+              <select
+                name="cabinClass"
+                onChange={handleInput}
+                defaultValue="ECONOMY"
+              >
                 <option value="ECONOMY">Economy</option>
                 <option value="PREMIUM_ECONOMY">Premium Economy</option>
                 <option value="BUSINESS">Business</option>
@@ -172,15 +185,45 @@ const Flight = () => {
       </div>
 
       <div className="resultsBox">
-        {results.length > 0 ? (
-          results.map((item, idx) => (
-            <div key={idx} className="resultCard">
-              <pre>{JSON.stringify(item, null, 2)}</pre>
-            </div>
-          ))
-        ) : (
-          !loading && <p className="noResults">No results to show.</p>
-        )}
+        {results.length > 0
+          ? results.map((item, idx) => {
+              const isLeg = item.departure && item.arrival;
+              const flight = isLeg ? item : item.legs?.[0];
+
+              return (
+                <div key={idx} className="resultCard">
+                  <h3>
+                    {item.airline?.name ||
+                      flight?.airline?.name ||
+                      "Airline Info"}
+                  </h3>
+                  <p>
+                    <strong>Flight:</strong>{" "}
+                    {item.number || flight?.number || "N/A"}
+                  </p>
+                  <p>
+                    <strong>From:</strong>{" "}
+                    {flight?.departure?.airport?.name || "Unknown"}{" "}
+                    <span className="time">
+                      ({flight?.departure?.scheduledTime || "-"})
+                    </span>
+                  </p>
+                  <p>
+                    <strong>To:</strong>{" "}
+                    {flight?.arrival?.airport?.name || "Unknown"}{" "}
+                    <span className="time">
+                      ({flight?.arrival?.scheduledTime || "-"})
+                    </span>
+                  </p>
+                  {item.status && (
+                    <p>
+                      <strong>Status:</strong> {item.status}
+                    </p>
+                  )}
+                </div>
+              );
+            })
+          : !loading && <p className="noResults">No results to show.</p>}
       </div>
     </div>
   );
