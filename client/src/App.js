@@ -10,6 +10,7 @@ import Login from "./pages/login/Login";
 import ProfileDashboard from "./pages/profile/ProfileDashboard";
 import Register from "./pages/register/Register";
 import Flight from "./pages/flight/Flight";
+import TouristPlaces from "./pages/touristPlaces/TouristPlaces";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Route path="/register" element={<Register/>} />
       <Route path="/flight" element={<Flight/>} />
       <Route path="/profile" element={<ProfileDashboard />} />
+      <Route path="/touristPlaces" element={<TouristPlaces />} />
     </Routes>
     </BrowserRouter>
   );
