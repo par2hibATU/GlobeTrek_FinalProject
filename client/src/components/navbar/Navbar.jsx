@@ -59,14 +59,14 @@ export const Navbar = () => {
             </div>
         ) : (
         <div className="navbarRegisterItems">
-          <button className="navButton"onClick={() => navigate("/register")}>Register</button>
-          <button className="navButton" onClick={() => navigate("/login")}>Login</button>
+          <button className="navButtonRegister"onClick={() => navigate("/register")}>Register</button>
+          <button className="navButtonLogin" onClick={() => navigate("/login")}>Login</button>
         </div>
       )}
 
         <div className="navItems">
           <div className="navbarList">
-            <div className="navbarListItem active">
+            <div className="navbarListItem">
               <FontAwesomeIcon icon={faBed} />
               <span>Stays</span>
             </div>

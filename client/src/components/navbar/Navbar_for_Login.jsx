@@ -37,7 +37,7 @@ export const Navbar = () => {
 
         <div className="navItems">
           <div className="navbarList">
-            <div className="navbarListItem active">
+            <div className="navbarListItem">
               <FontAwesomeIcon icon={faBed} />
               <span>Stays</span>
             </div>
