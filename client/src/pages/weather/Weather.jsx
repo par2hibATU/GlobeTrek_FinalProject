@@ -3,7 +3,7 @@ import { GoogleMap, useJsApiLoader, MarkerF, DirectionsRenderer, InfoWindowF } f
 
 const loaderOptions = {
   id: 'google-map-script',
-  googleMapsApiKey: 'AIzaSyDZ7REbIrwpLU151WlyKLKdr6j4Y9qd7Ec',
+  googleMapsApiKey: 'AIzaSyBO1cpAgfDyQhGTeBh4MN4kYjRt7jbZ0ys',
   libraries: ['places'], // Ensure all necessary libraries are included here
 }
 

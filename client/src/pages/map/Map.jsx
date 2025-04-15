@@ -1,71 +1,122 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { GoogleMap, useJsApiLoader, MarkerF, DirectionsRenderer } from '@react-google-maps/api'
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  GoogleMap,
+  useJsApiLoader,
+  MarkerF,
+  DirectionsRenderer,
+  InfoWindowF
+} from '@react-google-maps/api';
+import { useLocation } from 'react-router-dom';
 
 const loaderOptions = {
   id: 'google-map-script',
   googleMapsApiKey: 'AIzaSyBO1cpAgfDyQhGTeBh4MN4kYjRt7jbZ0ys',
-  libraries: ['places'], // Ensure all necessary libraries are included here
-}
+  libraries: ['places'],
+};
 
 const containerStyle = {
   width: '1800px',
   height: '900px',
-}
+};
+
+const weatherApiKey = 'f00c38e0279b7bc85480c3fe775d518c'; // OpenWeatherMap API Key
 
 function Map() {
-  const { isLoaded } = useJsApiLoader(loaderOptions)
+  const { isLoaded } = useJsApiLoader(loaderOptions);
+  const location = useLocation();
+  const destinationCoords = location.state?.destinationCoords;
+  const touristPlaces = location.state?.touristPlaces || [];
 
-  const [map, setMap] = useState(null)
-  const [currentLocation, setCurrentLocation] = useState(null)
-  const [directionsResponse, setDirectionsResponse] = useState(null)
-  const inputRef = useRef(null)
+  const [map, setMap] = useState(null);
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [directionsResponse, setDirectionsResponse] = useState(null);
+  const [weatherData, setWeatherData] = useState(null);
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const inputRef = useRef(null);
 
+  // Get current location
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setCurrentLocation({
+          const location = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-          })
+          };
+          setCurrentLocation(location);
+          fetchWeather(location);
         },
         (error) => {
-          console.error('Error fetching location:', error)
+          console.error('Error fetching location:', error);
         }
-      )
+      );
     } else {
-      console.error('Geolocation is not supported by this browser.')
+      console.error('Geolocation is not supported by this browser.');
     }
-  }, [])
+  }, []);
 
-  const onLoad = React.useCallback(function callback(map) {
-    setMap(map)
-  }, [])
+  // Fetch weather from OpenWeatherMap
+  const fetchWeather = async (location) => {
+    const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lng}&appid=${weatherApiKey}&units=metric`;
+    try {
+      const response = await fetch(weatherUrl);
+      const data = await response.json();
+      if (response.ok) {
+        setWeatherData(data);
+      } else {
+        console.error('Weather fetch failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching weather:', error);
+    }
+  };
 
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null)
-  }, [])
+  // If destination is passed, auto route
+  useEffect(() => {
+    if (currentLocation && destinationCoords) {
+      handleRouteToCoords(destinationCoords);
+    }
+  }, [currentLocation, destinationCoords]);
 
-  const handleSearch = () => {
-    const directionsService = new window.google.maps.DirectionsService()
-    const origin = currentLocation
-    const destination = inputRef.current.value
-
+  const handleRouteToCoords = (coords) => {
+    const directionsService = new window.google.maps.DirectionsService();
     directionsService.route(
       {
-        origin,
+        origin: currentLocation,
+        destination: coords,
+        travelMode: window.google.maps.TravelMode.DRIVING,
+      },
+      (result, status) => {
+        if (status === 'OK') {
+          setDirectionsResponse(result);
+        } else {
+          console.error(`Route failed: ${status}`);
+        }
+      }
+    );
+  };
+
+  const handleSearch = () => {
+    const destination = inputRef.current.value;
+    const directionsService = new window.google.maps.DirectionsService();
+    directionsService.route(
+      {
+        origin: currentLocation,
         destination,
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
       (result, status) => {
         if (status === 'OK') {
-          setDirectionsResponse(result)
+          setDirectionsResponse(result);
         } else {
-          console.error(`Directions request failed due to ${status}`)
+          console.error(`Search route failed: ${status}`);
         }
       }
-    )
-  }
+    );
+  };
+
+  const onLoad = React.useCallback(map => setMap(map), []);
+  const onUnmount = React.useCallback(() => setMap(null), []);
 
   return isLoaded && currentLocation ? (
     <div>
@@ -96,26 +147,79 @@ function Map() {
         </button>
       </div>
 
-      {/* Map */}
+      {/* Weather Info */}
+      {weatherData && (
+        <div style={{ marginBottom: '10px', fontSize: '18px' }}>
+          <h3>Weather in {weatherData.name}</h3>
+          <p>Temperature: {weatherData.main.temp}°C</p>
+          <p>Description: {weatherData.weather[0].description}</p>
+          <p>Wind Speed: {weatherData.wind.speed} m/s</p>
+          <img
+            src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+            alt="Weather Icon"
+            style={{ height: '50px' }}
+          />
+        </div>
+      )}
+
+      {/* Google Map */}
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={currentLocation}
-        zoom={15}
+        zoom={14}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
         {/* Marker at Current Location */}
-        <MarkerF position={currentLocation} />
+        <MarkerF position={currentLocation}>
+          {weatherData && (
+            <InfoWindowF position={currentLocation}>
+              <div>
+                <h4>{weatherData.name}</h4>
+                <p>{weatherData.main.temp}°C</p>
+                <p>{weatherData.weather[0].description}</p>
+                <img
+                  src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+                  alt="Weather Icon"
+                  style={{ height: '30px' }}
+                />
+              </div>
+            </InfoWindowF>
+          )}
+        </MarkerF>
+
+        {/* Tourist Places Markers */}
+        {touristPlaces.map((place, idx) => (
+          <MarkerF
+            key={idx}
+            position={{ lat: place.point.lat, lng: place.point.lon }}
+            onClick={() => setSelectedPlace(place)}
+          />
+        ))}
+
+        {/* Info Window for Selected Tourist Place */}
+        {selectedPlace && (
+          <InfoWindowF
+            position={{
+              lat: selectedPlace.point.lat,
+              lng: selectedPlace.point.lon,
+            }}
+            onCloseClick={() => setSelectedPlace(null)}
+          >
+            <div>
+              <strong>{selectedPlace.name || "Unnamed Place"}</strong>
+              <p>{selectedPlace.kinds}</p>
+            </div>
+          </InfoWindowF>
+        )}
 
         {/* Directions Renderer */}
-        {directionsResponse && (
-          <DirectionsRenderer directions={directionsResponse} />
-        )}
+        {directionsResponse && <DirectionsRenderer directions={directionsResponse} />}
       </GoogleMap>
     </div>
   ) : (
     <div>Loading map or fetching location...</div>
-  )
+  );
 }
 
-export default React.memo(Map)
+export default React.memo(Map);

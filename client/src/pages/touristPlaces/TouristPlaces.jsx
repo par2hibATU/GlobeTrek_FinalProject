@@ -38,7 +38,7 @@ const TouristPlaces = () => {
             lat,
             kinds: "interesting_places",
             format: "json",
-            limit: 50,
+            limit: 70,
             apikey: API_KEY,
           },
         }
@@ -54,8 +54,11 @@ const TouristPlaces = () => {
   };
 
   const handleNavigateToMap = (place) => {
-    const placeName = place.name || "Unnamed Place";
-    navigate("/map", { state: { destination: placeName } });
+    const destinationCoords = {
+      lat: place.point.lat,
+      lng: place.point.lon,
+    };
+    navigate("/map", { state: { destinationCoords } });
   };
 
   return (
