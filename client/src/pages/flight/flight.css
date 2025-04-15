@@ -55,14 +55,7 @@
     margin-top: 30px;
   }
   
-  .resultCard {
-    background-color: #ffffff;
-    border-left: 4px solid #007bff;
-    padding: 15px 20px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.06);
-  }
+
   
   .resultCard h3 {
     margin-top: 0;
@@ -92,4 +85,49 @@
     color: #777;
     margin-top: 20px;
   }
+
+  .resultsSplitContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .resultsColumn {
+    flex: 1;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .resultsColumn h3 {
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .resultCard {
+    background: white;
+    border-left: 5px solid #007bff;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  .resultCard.departed {
+    border-left-color: #28a745; /* green */
+  }
+  
+  .resultCard.expected {
+    border-left-color: #ffc107; /* amber */
+  }
+  
+  .time {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
   
