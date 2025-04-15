@@ -7,6 +7,7 @@ import {
   InfoWindowF
 } from '@react-google-maps/api';
 import { useLocation } from 'react-router-dom';
+import "./map.css"
 
 const loaderOptions = {
   id: 'google-map-script',
@@ -15,9 +16,10 @@ const loaderOptions = {
 };
 
 const containerStyle = {
-  width: '1800px',
-  height: '900px',
+  width: '100%',
+  height: '100%',
 };
+
 
 const weatherApiKey = 'f00c38e0279b7bc85480c3fe775d518c'; // OpenWeatherMap API Key
 
@@ -119,37 +121,14 @@ function Map() {
   const onUnmount = React.useCallback(() => setMap(null), []);
 
   return isLoaded && currentLocation ? (
-    <div>
-      {/* Search Box */}
-      <div style={{ marginBottom: '10px' }}>
-        <input
-          ref={inputRef}
-          type="text"
-          placeholder="Enter a destination"
-          style={{
-            width: '300px',
-            height: '40px',
-            marginRight: '10px',
-            fontSize: '16px',
-            padding: '5px',
-          }}
-        />
-        <button
-          onClick={handleSearch}
-          style={{
-            height: '40px',
-            padding: '5px 15px',
-            fontSize: '16px',
-            cursor: 'pointer',
-          }}
-        >
-          Search
-        </button>
+    <div className="map-wrapper">
+      <div className="search-controls">
+        <input ref={inputRef} type="text" placeholder="Enter a destination" />
+        <button onClick={handleSearch}>Search</button>
       </div>
-
-      {/* Weather Info */}
+  
       {weatherData && (
-        <div style={{ marginBottom: '10px', fontSize: '18px' }}>
+        <div className="weather-card">
           <h3>Weather in {weatherData.name}</h3>
           <p>Temperature: {weatherData.main.temp}°C</p>
           <p>Description: {weatherData.weather[0].description}</p>
@@ -157,69 +136,73 @@ function Map() {
           <img
             src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
             alt="Weather Icon"
-            style={{ height: '50px' }}
           />
         </div>
       )}
+  
+  <div className="map-container">
+  <GoogleMap
+    mapContainerStyle={{ width: "100%", height: "100%" }} // Let CSS control outer size
+    center={currentLocation}
+    zoom={14}
+    onLoad={onLoad}
+    onUnmount={onUnmount}
+  >
+    {/* Marker at Current Location */}
+    <MarkerF position={currentLocation}>
+      {weatherData && (
+        <InfoWindowF position={currentLocation}>
+          <div>
+            <h4>{weatherData.name}</h4>
+            <p>{weatherData.main.temp}°C</p>
+            <p>{weatherData.weather[0].description}</p>
+            <img
+              src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
+              alt="Weather Icon"
+              style={{ height: "30px" }}
+            />
+          </div>
+        </InfoWindowF>
+      )}
+    </MarkerF>
 
-      {/* Google Map */}
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={currentLocation}
-        zoom={14}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
+    {/* Tourist Place Markers */}
+    {touristPlaces.map((place, idx) => (
+      <MarkerF
+        key={idx}
+        position={{ lat: place.point.lat, lng: place.point.lon }}
+        onClick={() => setSelectedPlace(place)}
+      />
+    ))}
+
+    {/* Selected Place Info */}
+    {selectedPlace && (
+      <InfoWindowF
+        position={{
+          lat: selectedPlace.point.lat,
+          lng: selectedPlace.point.lon,
+        }}
+        onCloseClick={() => setSelectedPlace(null)}
       >
-        {/* Marker at Current Location */}
-        <MarkerF position={currentLocation}>
-          {weatherData && (
-            <InfoWindowF position={currentLocation}>
-              <div>
-                <h4>{weatherData.name}</h4>
-                <p>{weatherData.main.temp}°C</p>
-                <p>{weatherData.weather[0].description}</p>
-                <img
-                  src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-                  alt="Weather Icon"
-                  style={{ height: '30px' }}
-                />
-              </div>
-            </InfoWindowF>
-          )}
-        </MarkerF>
+        <div>
+          <strong>{selectedPlace.name || "Unnamed Place"}</strong>
+          <p>{selectedPlace.kinds}</p>
+        </div>
+      </InfoWindowF>
+    )}
 
-        {/* Tourist Places Markers */}
-        {touristPlaces.map((place, idx) => (
-          <MarkerF
-            key={idx}
-            position={{ lat: place.point.lat, lng: place.point.lon }}
-            onClick={() => setSelectedPlace(place)}
-          />
-        ))}
+    {/* Route Directions */}
+    {directionsResponse && (
+      <DirectionsRenderer directions={directionsResponse} />
+    )}
+  </GoogleMap>
+</div>
 
-        {/* Info Window for Selected Tourist Place */}
-        {selectedPlace && (
-          <InfoWindowF
-            position={{
-              lat: selectedPlace.point.lat,
-              lng: selectedPlace.point.lon,
-            }}
-            onCloseClick={() => setSelectedPlace(null)}
-          >
-            <div>
-              <strong>{selectedPlace.name || "Unnamed Place"}</strong>
-              <p>{selectedPlace.kinds}</p>
-            </div>
-          </InfoWindowF>
-        )}
-
-        {/* Directions Renderer */}
-        {directionsResponse && <DirectionsRenderer directions={directionsResponse} />}
-      </GoogleMap>
     </div>
   ) : (
-    <div>Loading map or fetching location...</div>
+    <div className="loading-message">Loading map or fetching location...</div>
   );
+  
 }
 
 export default React.memo(Map);
