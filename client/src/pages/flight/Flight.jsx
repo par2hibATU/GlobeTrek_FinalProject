@@ -105,74 +105,62 @@ const Flight = () => {
         >
           <option value="oneway">One-way Trip</option>
           <option value="round">Round Trip</option>
-          <option value="multi">Multi Trip</option>
-          <option value="tracking">Track a Flight</option>
-          <option value="schedule">Airport Schedule</option>
-          <option value="airportcode">Airport Code Lookup</option>
+          <option value="airportsLive">Live Flights at Irish Airports</option>
         </select>
 
         <form onSubmit={handleSubmit} className="searchForm">
-          <input
-            type="text"
-            name="from"
-            placeholder="From (IATA)"
-            onChange={handleInput}
-            required
-          />
-
-          {apiChoice !== "airportcode" && (
-            <input
-              type="text"
-              name="to"
-              placeholder="To (IATA)"
-              onChange={handleInput}
-              required
-            />
-          )}
-
-          <input
-            type="date"
-            name="date"
-            onChange={handleInput}
-            required
-          />
-
-          {apiChoice === "round" && (
-            <input
-              type="date"
-              name="returnDate"
-              onChange={handleInput}
-              required
-            />
-          )}
-
-          {(apiChoice === "oneway" || apiChoice === "round" || apiChoice === "multi") && (
+          {(apiChoice === "oneway" || apiChoice === "round") && (
             <>
-              <select
-                name="cabinClass"
+              <input
+                type="text"
+                name="from"
+                placeholder="From (e.g. JFK)"
                 onChange={handleInput}
                 required
-              >
-                <option value="">Cabin Class</option>
-                <option value="Economy">Economy</option>
-                <option value="PremiumEconomy">Premium Economy</option>
-                <option value="Business">Business</option>
-                <option value="First">First</option>
+              />
+              <input
+                type="text"
+                name="to"
+                placeholder="To (e.g. LHR)"
+                onChange={handleInput}
+                required
+              />
+              <input type="date" name="date" onChange={handleInput} required />
+              {apiChoice === "round" && (
+                <input
+                  type="date"
+                  name="returnDate"
+                  onChange={handleInput}
+                  required
+                />
+              )}
+              <select name="cabinClass" onChange={handleInput} defaultValue="ECONOMY">
+                <option value="ECONOMY">Economy</option>
+                <option value="PREMIUM_ECONOMY">Premium Economy</option>
+                <option value="BUSINESS">Business</option>
+                <option value="FIRST">First</option>
               </select>
 
-              <select
-                name="currency"
-                onChange={handleInput}
-                required
-              >
-                <option value="">Currency</option>
+              <select name="currency" onChange={handleInput} defaultValue="USD">
                 <option value="USD">USD</option>
                 <option value="EUR">EUR</option>
-                <option value="INR">INR</option>
                 <option value="GBP">GBP</option>
-                <option value="CAD">CAD</option>
               </select>
             </>
+          )}
+
+          {apiChoice === "airportsLive" && (
+            <select
+              name="selectedAirport"
+              value={formInputs.selectedAirport}
+              onChange={handleInput}
+            >
+              {Object.entries(airportData).map(([key, airport]) => (
+                <option key={key} value={key}>
+                  {airport.name}
+                </option>
+              ))}
+            </select>
           )}
 
           <button type="submit" disabled={loading}>
@@ -191,7 +179,7 @@ const Flight = () => {
             </div>
           ))
         ) : (
-          !loading && <p className="noResults">No results to display.</p>
+          !loading && <p className="noResults">No results to show.</p>
         )}
       </div>
     </div>
