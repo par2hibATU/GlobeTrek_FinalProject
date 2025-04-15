@@ -21,7 +21,7 @@ const Flight = () => {
     returnDate: "",
     cabinClass: "",
     currency: "",
-    selectedAirport: "dublin", // Changed default to match object key
+    selectedAirport: "dublin",
   });
 
   const [results, setResults] = useState([]);
@@ -76,7 +76,10 @@ const Flight = () => {
           },
         });
 
-        setResults(res.data?.departures || res.data?.arrivals || []);
+        setResults([
+          ...(res.data?.departures || []),
+          ...(res.data?.arrivals || []),
+        ]);
       } else {
         switch (apiChoice) {
           case "oneway":
@@ -248,15 +251,8 @@ const Flight = () => {
                         ({formatTime(flight?.departure?.scheduledTime)})
                       </span>
                     </p>
-
                     <p>
-                      <strong>To:</strong>{" "}
-                      {typeof flight?.arrival?.airport === "object"
-                        ? flight?.arrival?.airport?.name
-                        : flight?.arrival?.airport ||
-                          flight?.arrivalAirport?.name ||
-                          flight?.arrival?.airportName ||
-                          "Unknown"}{" "}
+                      <strong>To:</strong> {getArrivalAirport(flight)}{" "}
                       <span className="time">
                         ({formatTime(flight?.arrival?.scheduledTime)})
                       </span>
@@ -288,24 +284,19 @@ const Flight = () => {
                       <strong>Flight:</strong> {item.number || flight?.number}
                     </p>
                     <p>
-                      <strong>From:</strong>{" "}
-                      {typeof flight?.departure?.airport === "object"
-                        ? flight?.departure?.airport?.name
-                        : flight?.departure?.airport ||
-                          flight?.departureAirport?.name ||
-                          flight?.departure?.airportName ||
-                          "Unknown"}{" "}
+                      <strong>From:</strong> {getArrivalAirport(flight)}{" "}
                       <span className="time">
                         ({formatTime(flight?.departure?.scheduledTime)})
                       </span>
                     </p>
                     <p>
-                      <strong>To:</strong> {getArrivalAirport(flight)}{" "}
+                      <strong>To:</strong>{" "}
+                      {airportData[formInputs.selectedAirport]?.name ||
+                        "Unknown"}{" "}
                       <span className="time">
                         ({formatTime(flight?.arrival?.scheduledTime)})
                       </span>
                     </p>
-
                     <p>
                       <strong>Status:</strong> {item.status || "Expected"}
                     </p>
@@ -315,7 +306,6 @@ const Flight = () => {
           </div>
         </div>
 
-        {/* Fallback */}
         {!loading && results.length === 0 && (
           <p className="noResults">No results to show.</p>
         )}
