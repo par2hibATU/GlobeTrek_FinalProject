@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import "./touristPlaces.css";
+import Navbar from "../../components/navbar/Navbar_for_Login";
+import Subscribe from "../mailList/Subscribe";
+import { Footer } from "antd/es/layout/layout";
 
 const API_KEY = "5ae2e3f221c38a28845f05b6751b62017f6246199eff0252e90b1108";
 
@@ -62,31 +66,36 @@ const TouristPlaces = () => {
   };
 
   return (
-    <div className="travel-container">
-      <h2>🌍 Find Nearby Travel Spots</h2>
-      <input
-        type="text"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-        placeholder="Enter a city name (e.g., Galway)"
-      />
-      <button onClick={handleSearch} disabled={loading}>
-        {loading ? "Searching..." : "Search"}
-      </button>
+    <div>
+        <Navbar />
+      <div className="travel-container">
+        <h2>🌍 Find Nearby Travel Spots</h2>
+        <input
+          type="text"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
+          placeholder="Enter a city name (e.g., Galway)"
+        />
+        <button onClick={handleSearch} disabled={loading}>
+          {loading ? "Searching..." : "Search"}
+        </button>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      <ul>
-        {places.map((place, index) => (
-          <li
-            key={index}
-            style={{ cursor: "pointer", color: "blue" }}
-            onClick={() => handleNavigateToMap(place)}
-          >
-            <strong>{place.name || "Unnamed Place"}</strong> - {place.kinds}
-          </li>
-        ))}
-      </ul>
+        <ul>
+          {places.map((place, index) => (
+            <li
+              key={index}
+              style={{ cursor: "pointer", color: "blue" }}
+              onClick={() => handleNavigateToMap(place)}
+            >
+              <strong>{place.name || "Unnamed Place"}</strong> - {place.kinds}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Subscribe />
+      <Footer />
     </div>
   );
 };
