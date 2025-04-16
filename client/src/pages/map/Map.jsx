@@ -75,7 +75,7 @@ function Map() {
 
   // If destination is passed, auto route
   useEffect(() => {
-    if (currentLocation && destinationCoords) {
+    if (isLoaded && currentLocation && destinationCoords) {
       handleRouteToCoords(destinationCoords);
     }
   }, [currentLocation, destinationCoords]);
