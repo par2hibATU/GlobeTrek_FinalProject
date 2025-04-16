@@ -86,7 +86,7 @@ export const Navbar = () => {
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faCoins} />
-              <span>Currecny Exchange</span>
+              <span onClick={() => navigate("/currency")}>Currency Exchange</span>
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faLocation} />
