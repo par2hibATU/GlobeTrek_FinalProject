@@ -1,68 +1,51 @@
 /* currency.css */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
-    margin: 0;
-    padding: 0;
+.currency-card {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
-  .card {
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    padding: 40px;
+  .currency-title {
+    font-size: 2rem;
+    margin-bottom: 20px;
     text-align: center;
-  }
-  
-  .text-6xl {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
     color: #333;
   }
   
-  .currency_exchnage {
+  .currency-exchange {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    margin-bottom: 30px;
   }
   
-  .input_container {
+  .currency-input-group {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin: 0 auto;
-    max-width: 400px;
-    width: 100%;
   }
   
-  .input_label {
-    font-size: 1rem;
-    margin-bottom: 8px;
+  .currency-label {
+    margin-bottom: 6px;
     font-weight: 500;
     color: #444;
   }
   
-  .input_field {
-    width: 100%;
-    padding: 10px 12px;
-    font-size: 1rem;
+  .currency-input,
+  .currency-select {
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 10px;
-    transition: border-color 0.3s ease;
+    border-radius: 8px;
+    font-size: 1rem;
   }
   
-  .input_field:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  .output {
-    font-size: 1.5rem;
-    color: #2d6a4f;
-    font-weight: 600;
+  .currency-output {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #2b9348;
   }
   

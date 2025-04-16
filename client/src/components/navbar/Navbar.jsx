@@ -69,7 +69,7 @@ export const Navbar = () => {
           <div className="navbarList">
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faBed} />
-              <span>Stays</span>
+              <span onClick={() => navigate("/")}>Stays</span>
             </div>
 
             <div className="navbarListItem">

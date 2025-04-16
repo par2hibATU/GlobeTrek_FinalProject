@@ -79,28 +79,28 @@ const Currency = () => {
   return (
     <div>
       <Navbar />
-      <div className="card">
-        <h1 className="text-6xl">Currency Converter</h1>
+      <div className="currency-card">
+        <h1 className="currency-title">Currency Converter</h1>
 
-        <div className="currency_exchnage">
-          <div className="input_container">
-            <label className="input_label">Amount:</label>
+        <div className="currency-exchange">
+          <div className="currency-input-group">
+            <label className="currency-label">Amount:</label>
             <input
               type="number"
               name="amount"
-              className="input_field"
+              className="currency-input"
               value={amount}
               onChange={handleChange}
             />
           </div>
 
-          <div className="input_container">
-            <label className="input_label">From Currency:</label>
+          <div className="currency-input-group">
+            <label className="currency-label">From Currency:</label>
             <select
               name="fromCurrency"
               value={fromCurrency}
               onChange={handleChange}
-              className="input_field"
+              className="currency-select"
             >
               {supportedCurrencies.map((currency) => (
                 <option key={currency} value={currency}>
@@ -111,13 +111,13 @@ const Currency = () => {
             </select>
           </div>
 
-          <div className="input_container">
-            <label className="input_label">To Currency:</label>
+          <div className="currency-input-group">
+            <label className="currency-label">To Currency:</label>
             <select
               name="toCurrency"
               value={toCurrency}
               onChange={handleChange}
-              className="input_field"
+              className="currency-select"
             >
               {supportedCurrencies.map((currency) => (
                 <option key={currency} value={currency}>
@@ -129,10 +129,11 @@ const Currency = () => {
           </div>
         </div>
 
-        <div className="output">
+        <div className="currency-output">
           <h2>Converted Amount: {convertedAmount}</h2>
         </div>
       </div>
+
       <Subscribe />
       <Footer />
     </div>
