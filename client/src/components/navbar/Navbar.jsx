@@ -77,7 +77,7 @@ export const Navbar = () => {
               <span onClick={() => navigate("/flight")}>Flights</span>
             </div>
             <div className="navbarListItem">
-              <FontAwesomeIcon icon={faCar} />
+              <FontAwesomeIcon icon={faTaxi} />
               <a
                 href="https://www.free-now.com/ie/"
                 target="_blank"
