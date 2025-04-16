@@ -33,6 +33,102 @@ const Currency = () => {
     fetchRates();
   }, []);
 
+  useEffect(() => {
+    if (fromCurrency === 'USD' && quotes[`USD${toCurrency}`]) {
+      const rate = quotes[`USD${toCurrency}`];
+      setConvertedAmount((amount * rate).toFixed(2));
+    } else if (fromCurrency !== 'USD' && toCurrency !== 'USD') {
+      const fromRate = quotes[`USD${fromCurrency}`];
+      const toRate = quotes[`USD${toCurrency}`];
+      if (fromRate && toRate) {
+        const rate = toRate / fromRate;
+        setConvertedAmount((amount * rate).toFixed(2));
+      }
+    } else if (fromCurrency !== 'USD' && toCurrency === 'USD') {
+      const fromRate = quotes[`USD${fromCurrency}`];
+      if (fromRate) {
+        setConvertedAmount((amount / fromRate).toFixed(2));
+      }
+    }
+  }, [amount, fromCurrency, toCurrency, quotes]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case 'amount':
+        setAmount(value);
+        break;
+      case 'fromCurrency':
+        setFromCurrency(value);
+        break;
+      case 'toCurrency':
+        setToCurrency(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const supportedCurrencies = Object.keys(quotes).map((key) =>
+    key.replace('USD', '')
+  );
+
+  return (
+    <div className='card'>
+      <h1 className='text-6xl'>Currency Converter</h1>
+
+      <div className='currency_exchnage'>
+        <div className="input_container">
+          <label className="input_label">Amount:</label>
+          <input
+            type="number"
+            name="amount"
+            className="input_field"
+            value={amount}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="input_container">
+          <label className="input_label">From Currency:</label>
+          <select
+            name="fromCurrency"
+            value={fromCurrency}
+            onChange={handleChange}
+            className="input_field"
+          >
+            {supportedCurrencies.map(currency => (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            ))}
+            <option value="USD">USD</option>
+          </select>
+        </div>
+
+        <div className="input_container">
+          <label className="input_label">To Currency:</label>
+          <select
+            name="toCurrency"
+            value={toCurrency}
+            onChange={handleChange}
+            className="input_field"
+          >
+            {supportedCurrencies.map(currency => (
+              <option key={currency} value={currency}>
+                {currency}
+              </option>
+            ))}
+            <option value="USD">USD</option>
+          </select>
+        </div>
+      </div>
+
+      <div className='output'>
+        <h2>Converted Amount: {convertedAmount}</h2>
+      </div>
+    </div>
+  );
+};
 
 export default Currency;
