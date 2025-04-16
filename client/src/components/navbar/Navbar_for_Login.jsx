@@ -9,12 +9,9 @@ import {
   faPlane,
   faTaxi,
   faUser,
-
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-
-
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -26,13 +23,12 @@ export const Navbar = () => {
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
     localStorage.removeItem("user");
-    navigate("/")
-  }
+    navigate("/");
+  };
   return (
     <div className="navbar">
-
       <div className="navContainer">
-        <Link to="/" style={{color:"inherit",textDecoration:"none"}}>
+        <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
           <span className="logo">GlobeTrek</span>
         </Link>
 
@@ -49,7 +45,14 @@ export const Navbar = () => {
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faCar} />
-              <span>Car rentals</span>
+              <a
+                href="https://www.free-now.com/ie/"
+                target="_blank"
+                rel="noopener noreferrer"
+                
+              >
+                Taxi
+              </a>
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faBed} />
@@ -57,7 +60,9 @@ export const Navbar = () => {
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faCoins} />
-              <span onClick={() => navigate("/currency")}>Currency Exchange</span>
+              <span onClick={() => navigate("/currency")}>
+                Currency Exchange
+              </span>
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faLocation} />

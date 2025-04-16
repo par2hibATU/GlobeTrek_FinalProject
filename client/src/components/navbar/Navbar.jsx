@@ -78,7 +78,14 @@ export const Navbar = () => {
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faCar} />
-              <span>Car rentals</span>
+              <a
+                href="https://www.free-now.com/ie/"
+                target="_blank"
+                rel="noopener noreferrer"
+                
+              >
+                Taxi
+              </a>
             </div>
             <div className="navbarListItem">
               <FontAwesomeIcon icon={faBed} />
