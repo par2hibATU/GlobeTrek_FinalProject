@@ -86,3 +86,27 @@ export const deleteReview = async (req, res, next) =>{
         next(err);
     }
 };
+
+// To get all reviews
+export const getReviewsByHotel = async (req, res, next) => {
+    try {
+        const reviews = await Reviews.find({ hotelId: req.params.hotelId}).sort({
+            createdAt: -1,
+        });
+        res.status(200).json(reviews);
+    }catch (err) {
+        next(err);
+    }
+};
+
+// Get all reviews (user)
+export const getReviewsByUser = async (req, res, next) => {
+    try {
+        const reviews = await Reviews.find({ userId: req.params.userId }).sort({
+            createdAt: -1,
+        });
+        res.status(200).json(reviews);
+    } catch(err){
+        next(err);
+    }
+};
