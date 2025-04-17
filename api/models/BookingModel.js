@@ -10,10 +10,12 @@ const BookingSchema = new mongoose.Schema({
     ref: "Hotel",
     required: true,
   },
-  roomNumbers: {
-    type: [String],
-    required: true,
-  },
+  roomNumbers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Room", // Reference to Room model
+    },
+  ],
   dates: {
     type: [Date],
     required: true,
