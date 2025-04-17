@@ -1,22 +1,27 @@
 import express from "express";
-import { createReview, deleteReview, updateReview, getReviewsByHotel, getReviewsByUser } from "../controllers/review.js";
-import { verifyUser } from "../utills/verifyToken.js";
+import {
+  createReview,
+  updateReview,
+  deleteReview,
+  getReviewsByHotel,
+
+} from "../controllers/reviews.js";
+import { verifyToken, verifyUser, verifyAdmin } from "../utills/verifyToken.js";
 
 const router = express.Router();
 
-// Create review 
-router.post("/", verifyUser, createReview);
+// Create a review (user must be logged in)
+router.post("/:hotelId", verifyToken, createReview);
 
-// Update review 
-router.put("/:id", verifyUser, updateReview);
+// Update a review (only the user or admin)
+router.put("/:id", verifyToken, updateReview);
 
-// Delete review
-router.delete("/:id", verifyUser, deleteReview);
+// Delete a review (only the user or admin)
+router.delete("/:id", verifyToken, deleteReview);
 
 // Get all reviews for a hotel
 router.get("/hotel/:hotelId", getReviewsByHotel);
 
-// Get all reviews by a user
-router.get("/user/:userId", getReviewsByUser);
+
 
 export default router;
