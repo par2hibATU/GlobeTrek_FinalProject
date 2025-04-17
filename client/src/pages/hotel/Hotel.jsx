@@ -105,7 +105,7 @@ export const Hotel = () => {
               Excellent Location - {data.distance}m from the center
             </span>
             <span className="hotelPriceHighlight">
-              Book your spot over €{data.cheapestPrice} and Experience the
+              Book your spot over £{data.cheapestPrice} and Experience the
               absolute comfort. Get a free coach station Taxi pickup
             </span>
             <div className="hotelImages">

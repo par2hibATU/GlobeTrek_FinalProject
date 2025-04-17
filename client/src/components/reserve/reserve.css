@@ -1,78 +1,145 @@
 .reserve {
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.418);
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .rContainer {
-    background-color: white;
-    padding: 20px;
-    position: relative;
-  }
-  
-  .rClose {
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
-  }
-  
-  .rItem {
-    display: flex;
-    align-items: center;
-    gap: 50px;
-    padding: 20px;
-  }
-  
-  .rInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .rTitle {
-    font-weight: 500;
-  }
-  
-  .rDesc {
-    font-weight: 300;
-  }
-  
-  .rMax {
-    font-size: 12px;
-  }
-  
-  .rPrice {
-    font-weight: 500;
-  }
-  
-  .rSelectRooms{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    font-size: 8px;
-    color: gray;
-  }
-  
-  .room{
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .rButton {
-    border: none;
-    padding: 10px 20px;
-    background-color: #0071c2;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%;
-    margin-top: 20px;
-  }
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.rContainer {
+  width: 85%; /* Adjusted from 90% to 85% for a wider screen */
+  max-width: 1200px; /* Increased max-width to 1200px */
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.rClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 22px;
+  color: #555;
+}
+
+.rTitleMain {
+  margin-bottom: 20px;
+  color: #222;
+  font-weight: 600;
+  font-size: 22px;
+  text-align: center;
+}
+
+.rItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+}
+
+.rItemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.rTitle {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.rDesc {
+  font-size: 14px;
+  color: #555;
+}
+
+.rMax {
+  font-size: 13px;
+  color: #888;
+}
+
+.rPrice {
+  font-weight: bold;
+  color: #0071c2;
+}
+
+.rSelectRooms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 14px;
+  color: gray;
+}
+
+.room {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rButton {
+  margin-top: 30px;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #0071c2;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.rButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.rReviews {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.rReviews h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.rReviewItem {
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #444;
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.rReviewItem p {
+  margin: 5px 0;
+}
+
+.rReviewItem small {
+  color: #888;
+  font-size: 12px;
+}
