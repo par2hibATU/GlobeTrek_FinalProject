@@ -2,7 +2,29 @@ import Reviews from "../models/Reviews.js";
 import Hotel from "../models/Hotel.js";
 import createError from "http-errors";
 
+// Bayesian Average method to rate hotels#
+const updateHotelRating = async (hotelId) => {
+    const hotelReviews = await Reviews.find({ hotelId });
+    const v = hotelReviews.length;
 
+    if (v === 0) {
+        await Hotel.findByIdAndUpdate(hotelId, { rating: 0 });
+        return;
+    }
+
+    const R = hotelReviews.reduce((sum, review) => sum + review.rating, 0) / v;
+
+    const allReviews = await Reviews.find();
+    const C = allReviews.reduce((sum, review) => sum + review.rating, 0) / allReviews.length;
+
+    const m = 5; // minimum number of reviews
+
+    const bayesianRating = (v / (v + m)) * R + (m / (v + m)) * C;
+
+    await Hotel.findByIdAndUpdate(hotelId, {
+        rating: parseFloat(bayesianRating.toFixed(2)),
+    });
+};
 
 
 // To create reviews
@@ -29,7 +51,7 @@ export const createReview = async (req, resizeBy, next) => {
 
         const savedReview = await newReview.save();
 
-        //
+        await updateHotelRating(hotelId);
         res.status(201).json(savedReview);
     } catch (err) {
         next(err);
@@ -56,7 +78,7 @@ export const updateReview = async (req, res, next) => {
             { new: true }
         );
 
-        //
+        await updateHotelRating(hotelId);
 
         res.status(200).json(updatedReview);
     } catch (err) {
@@ -79,7 +101,7 @@ export const deleteReview = async (req, res, next) =>{
         
         await Reviews.findByIdAndDelete(req.params.id);
         
-        //
+        await updateHotelRating(hotelId);
 
         res.status(200).json("Review deleted successfully");
     } catch(err){
