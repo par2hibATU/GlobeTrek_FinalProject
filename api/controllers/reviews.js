@@ -35,3 +35,31 @@ export const createReview = async (req, resizeBy, next) => {
         next(err);
     }
 };
+
+// Update a review
+
+export const updateReview = async (req, res, next) => {
+    try {
+        const review = await Reviews.findById(req.params.id);
+
+        if(!review){
+            return next(createError(400, "Review not found"));
+        }
+
+        if (review.userId.toString() !== req.user.id) {
+            return next(createError(403, "You can only update your own reviews"));
+        }
+
+        const updatedReview = await Reviews.findByIdAndUpdate(
+            req.params.id,
+            { $set: req.body },
+            { new: true }
+        );
+
+        //
+
+        res.status(200).json(updatedReview);
+    } catch (err) {
+        next(err);
+    }
+}
