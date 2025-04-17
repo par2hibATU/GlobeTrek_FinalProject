@@ -1,0 +1,23 @@
+.star {
+    position: relative;
+    display: inline-block;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+  }
+  
+  .star .empty {
+    color: #ccc;
+  }
+  
+  .star .filled {
+    color: gold;
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    pointer-events: none; /* Ensure only parent handles clicks */
+  }
+  
