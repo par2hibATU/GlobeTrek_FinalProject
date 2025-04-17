@@ -14,15 +14,19 @@ const updateHotelRating = async (hotelId) => {
   }
 
   const R = hotelReviews.reduce((sum, review) => sum + review.rating, 0) / v;
+  console.log(`Hotel ${hotelId} average rating (R): ${R}`);
 
   const allReviews = await Reviews.find();
   const C =
     allReviews.reduce((sum, review) => sum + review.rating, 0) /
     allReviews.length;
 
+  console.log(`Global average rating (C): ${C}`);
   const m = 5; // minimum number of reviews
+  console.log(`Minimum reviews required (m): ${m}`);
 
   const bayesianRating = (v / (v + m)) * R + (m / (v + m)) * C;
+  console.log(`Bayesian rating for hotel ${hotelId}: ${bayesianRating}`);
 
   await Hotel.findByIdAndUpdate(hotelId, {
     rating: parseFloat(bayesianRating.toFixed(2)),
