@@ -13,6 +13,7 @@ import Flight from "./pages/flight/Flight";
 import TouristPlaces from "./pages/touristPlaces/TouristPlaces";
 import Currency from "./pages/currency/Currency";
 import HotelDetails from "./pages/hotelDetails/HotelDetails";
+import HotelType from "./pages/hotelType/HotelType";
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
       <Route path="/touristPlaces" element={<TouristPlaces />} />
       <Route path="/currency" element={<Currency />} />
       <Route path="/hotelDetails/:id" element={<HotelDetails />} />
+      <Route path="/hotels-by-type" element={<HotelType />} />
     </Routes>
     </BrowserRouter>
   );

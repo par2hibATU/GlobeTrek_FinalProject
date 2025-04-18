@@ -1,0 +1,65 @@
+.hotelTypeContainer {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  .hotelTypeTitle {
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+  }
+  
+  .loadingText,
+  .noHotels {
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+    margin-top: 40px;
+  }
+  
+  .hotelTypeList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .hotelTypeItem {
+    flex: 1 1 calc(50% - 20px);
+    display: flex;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #fdfdfd;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .hotelTypeItem:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hotelTypeImg {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .hotelTypeDetails {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .hotelTypeDetails h2 {
+    font-size: 20px;
+    margin: 0 0 10px;
+  }
+  
+  .hotelTypeDetails p {
+    margin: 2px 0;
+    font-size: 16px;
+    color: #444;
+  }
+  
