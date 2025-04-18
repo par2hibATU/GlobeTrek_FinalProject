@@ -12,6 +12,7 @@ import Register from "./pages/register/Register";
 import Flight from "./pages/flight/Flight";
 import TouristPlaces from "./pages/touristPlaces/TouristPlaces";
 import Currency from "./pages/currency/Currency";
+import HotelDetails from "./pages/hotelDetails/HotelDetails";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
       <Route path="/profile" element={<ProfileDashboard />} />
       <Route path="/touristPlaces" element={<TouristPlaces />} />
       <Route path="/currency" element={<Currency />} />
+      <Route path="/hotelDetails/:id" element={<HotelDetails />} />
     </Routes>
     </BrowserRouter>
   );
