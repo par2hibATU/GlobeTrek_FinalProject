@@ -10,16 +10,16 @@ import { verifyToken, verifyUser, verifyAdmin } from "../utills/verifyToken.js";
 
 const router = express.Router();
 
-// Create a review (user must be logged in)
+// Create a review
 router.post("/:hotelId", verifyToken, createReview);
 
-// Update a review (only the user or admin)
+// Update 
 router.put("/:id", verifyToken, updateReview);
 
-// Delete a review (only the user or admin)
-router.delete("/:id", verifyToken, deleteReview);
+// Delete 
+router.delete("/:id", verifyAdmin, deleteReview);
 
-// Get all reviews for a hotel
+// Get all
 router.get("/hotel/:hotelId", getReviewsByHotel);
 
 

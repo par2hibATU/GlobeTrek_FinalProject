@@ -13,7 +13,7 @@ const BookingSchema = new mongoose.Schema({
   roomNumbers: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Room", // Reference to Room model
+      ref: "Room",
     },
   ],
   dates: {

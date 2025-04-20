@@ -4,8 +4,8 @@ router.get("/user/:id", async (req, res) => {
       .populate("hotelId")
       .populate({
         path: "roomNumbers",
-        model: "Room", // populate from Room model
-        select: "roomNumbers.number", // select only the actual numbers
+        model: "Room", 
+        select: "roomNumbers.number", 
       });
 
     res.status(200).json(bookings);

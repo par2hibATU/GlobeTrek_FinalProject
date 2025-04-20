@@ -4,7 +4,7 @@ import Room from "../models/Room.js";
 
 const router = express.Router();
 
-// POST: Create new booking
+// Create new booking
 router.post("/", async (req, res) => {
   const newBooking = new Booking(req.body);
   try {
@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-// GET: Fetch bookings for user with resolved room numbers
+//Fetch bookings for user with resolved room numbers
 router.get("/user/:id", async (req, res) => {
   try {
     const bookings = await Booking.find({ userId: req.params.id }).populate("hotelId");
