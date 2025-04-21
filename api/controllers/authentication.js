@@ -30,10 +30,10 @@ export const login = async(req, res, next)=>{
 
         if(!isPasswordCorrect) return next(createError(400, "Wrong password or Username!"));
 
-        //if password is correct, we gonna create a new token here:
+        // if password is correct, we gonna create a new token here:
         const token = jwt.sign({id:user._id, isAdmin: user.isAdmin }, process.env.JWT);
 
-        //this will hide the password when login is successful and shows the username and other info which is under user._doc
+        // this will hide the password when login is successful and shows the username and other info which is under user._doc
         const {password, isAdmin, ...otherDetails} = user._doc;
         res.cookie("access_token", token, {
             httpOnly: true,

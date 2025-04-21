@@ -19,7 +19,7 @@ import Reserve from "../../components/reserve/Reserve";
 
 export const Hotel = () => {
   const location = useLocation();
-  console.log(location)
+  // console.log(location)
   const id = location.pathname.split("/")[2]; //it [2] cause remember the URL (/hotels/id), so hotelId is in pos 2
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
@@ -58,7 +58,8 @@ export const Hotel = () => {
     if(user){
       setOpenModal(true)
     }else{
-      navigate("/")
+      navigate("/login")
+      return alert("Please login to make a booking!!");
     }
   }
   return (
@@ -95,7 +96,7 @@ export const Hotel = () => {
             </div>
           )}
           <div className="hotelWrapper">
-            <button className="bookNow">Reserve or Book Now!</button>
+            <button className="bookNow" onClick={handleClick}>Reserve now</button>
             <h1 className="hotelTitle">{data.name}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
@@ -138,7 +139,7 @@ export const Hotel = () => {
                   <b>${days * data.cheapestPrice * options.room}</b> ( {days}{" "}
                   nights)
                 </h2>
-                <button onClick={handleClick}>Reserve or Book now!</button>
+                <button onClick={handleClick}>Book now!</button>
               </div>
             </div>
           </div>

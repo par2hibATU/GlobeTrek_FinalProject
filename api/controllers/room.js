@@ -10,7 +10,6 @@ export const createRoom = async (req, res, next) => {
     try {
         const savedRoom = await newRoom.save();
         
-        // Ensure the Hotel document gets updated properly
         const updatedHotel = await Hotel.findByIdAndUpdate(
             hotelId,
             { $push: { rooms: savedRoom._id } },  

@@ -60,7 +60,7 @@ export const updateReview = async (req, res, next) => {
     if (!review) return next(createError(404, "Review not found"));
 
     if (review.userId.toString() !== req.user.id && !req.user.isAdmin) {
-      return next(createError(403, "You can only update your own reviews"));
+      return next(createError(403, "Admin and You can only update your own reviews"));
     }
 
     const updatedReview = await Reviews.findByIdAndUpdate(
