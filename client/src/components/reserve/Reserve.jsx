@@ -140,7 +140,7 @@ const Reserve = ({ setOpen, hotelId }) => {
           className="rButton"
           disabled={selectedRooms.length === 0}
         >
-          Reserve Now!
+          Confirm your Booking!
         </button>
 
         <div className="rReviews">
