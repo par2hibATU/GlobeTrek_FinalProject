@@ -225,9 +225,8 @@ const Flight = () => {
           {errorMsg && <p className="error">{errorMsg}</p>}
         </div>
 
-        {/* FLIGHT RESULTS */}
         <div className="resultsSplitContainer">
-          {/* Departed Flights */}
+          
           <div className="resultsColumn">
             <h3>🛫 Departed Flights</h3>
             {results
@@ -265,7 +264,6 @@ const Flight = () => {
               })}
           </div>
 
-          {/* Expected Flights */}
           <div className="resultsColumn">
             <h3>⏳ Expected Flights</h3>
             {results
