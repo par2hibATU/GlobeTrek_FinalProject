@@ -1,4 +1,3 @@
-// src/pages/hotelType/HotelType.jsx
 import { useLocation } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import "./hotelType.css";
@@ -6,8 +5,7 @@ import "./hotelType.css";
 const HotelType = () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const type = params.get("type"); // 👈 get type from query string
-
+  const type = params.get("type"); 
   const { data, loading } = useFetch(`/hotels?type=${type}`);
 
   return (

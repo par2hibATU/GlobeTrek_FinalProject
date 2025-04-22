@@ -22,9 +22,8 @@ const ProfileDashboard = () => {
 
         setBookings(res.data);
 
-        // Optional: If backend supports a reviewed flag
         const reviewed = res.data
-          .filter((b) => b.reviewed) // assuming backend returns this
+          .filter((b) => b.reviewed) 
           .map((b) => b._id);
         setReviewedBookings(new Set(reviewed));
       } catch (err) {

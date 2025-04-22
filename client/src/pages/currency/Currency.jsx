@@ -21,7 +21,7 @@ const Currency = () => {
         const res = await axios.get(API_URL, {
           params: {
             access_key: API_KEY,
-            currencies: "AUD,EUR,GBP,PLN,INR,CAD,JPY,CNY,CHF, HKD, SGD",
+            currencies: "AUD,EUR,GBP,PLN,INR,CAD,JPY,CNY,CHF,HKD,SGD",
           },
         });
 
