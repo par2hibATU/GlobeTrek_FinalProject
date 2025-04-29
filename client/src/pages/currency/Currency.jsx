@@ -9,7 +9,7 @@ const Currency = () => {
   const [quotes, setQuotes] = useState({});
   const [amount, setAmount] = useState(1);
   const [fromCurrency, setFromCurrency] = useState("USD");
-  const [toCurrency, setToCurrency] = useState("INR");
+  const [toCurrency, setToCurrency] = useState("EUR");
   const [convertedAmount, setConvertedAmount] = useState(null);
 
   const API_URL = "https://api.exchangerate.host/live";

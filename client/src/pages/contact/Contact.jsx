@@ -16,9 +16,9 @@ export const Contact = () => {
     setMessage(event.target.value);
   };
 
-  // Optional: handle form submission
+  // handle form submission
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault();     // to prevent the page from automatically update the form
     console.log('Email:', email);
     console.log('Message:', message);
   };
