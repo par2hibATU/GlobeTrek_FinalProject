@@ -142,7 +142,7 @@ function Map() {
   
   <div className="map-container">
   <GoogleMap
-    mapContainerStyle={{ width: "100%", height: "100%" }} // Let CSS control outer size
+    mapContainerStyle={{ width: "100%", height: "100%" }} 
     center={currentLocation}
     zoom={14}
     onLoad={onLoad}
